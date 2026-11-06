@@ -1,0 +1,877 @@
+/* ==========================================================================
+   Eye Hospital — Premium Healthcare Website
+   Design System & Custom Styling
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  --color-primary-navy: #073B59;
+  --color-dark-navy: #06364F;
+  --color-secondary-blue: #0876A8;
+  --color-teal: #13B8B0;
+  --color-teal-hover: #0fa19a;
+  --color-cyan: #75D9E1;
+  --color-light-blue: #EEF7FC;
+  --color-light-blue-surface: #F4F9FD;
+  --color-white: #FFFFFF;
+  --color-main-text: #173247;
+  --color-secondary-text: #667C8D;
+  --color-border: #DCEAF1;
+  --color-border-subtle: #E8F2F7;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --shadow-sm: 0 1px 3px rgba(7, 59, 89, 0.05);
+  --shadow-md: 0 4px 12px rgba(7, 59, 89, 0.07);
+  --shadow-lg: 0 12px 24px -4px rgba(7, 59, 89, 0.1);
+  --shadow-xl: 0 20px 35px -5px rgba(7, 59, 89, 0.14);
+  --shadow-teal: 0 10px 25px -3px rgba(19, 184, 176, 0.35);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Base Typography
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  color: var(--color-main-text);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, button, input, select, textarea, label {
+  font-family: var(--font-sans);
+}
+
+body {
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--color-primary-navy);
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+/* Gradient typography utilities */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #FFFFFF 0%, #BCEBEE 40%, #75D9E1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, #073B59 0%, #0876A8 60%, #13B8B0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Accessible focus outline */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header & Navigation Styles
+   -------------------------------------------------------------------------- */
+.navbar-scrolled {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(7, 59, 89, 0.08);
+}
+
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.925rem;
+  color: var(--color-main-text);
+  transition: color var(--transition-fast);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-teal);
+  border-radius: 2px;
+  transition: width var(--transition-normal);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-teal);
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   4. Hero Section & Biometric HUD Graphics
+   -------------------------------------------------------------------------- */
+.hero-gradient {
+  background-color: var(--color-dark-navy);
+  background-image: 
+    radial-gradient(circle at 82% 48%, rgba(19, 184, 176, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 15% 30%, rgba(8, 118, 168, 0.2) 0%, transparent 40%),
+    linear-gradient(135deg, #052a3f 0%, #073B59 55%, #06364F 100%);
+}
+
+/* Biometric HUD Overlays on Hero Eye Image */
+.hud-reticle-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.5px dashed rgba(117, 217, 225, 0.5);
+  box-shadow: 0 0 15px rgba(19, 184, 176, 0.3);
+  animation: hudRotate 24s linear infinite;
+}
+
+.hud-reticle-inner {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1px solid rgba(117, 217, 225, 0.7);
+  box-shadow: 0 0 10px rgba(117, 217, 225, 0.4);
+  animation: hudPulse 3.5s ease-in-out infinite;
+}
+
+/* Radar Sweep Beam */
+.hud-radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  transform-origin: 0 0;
+  pointer-events: none;
+  background: conic-gradient(from 0deg at 0 0, rgba(117, 217, 225, 0.35) 0deg, transparent 55deg);
+  border-radius: 0 100% 0 0;
+  animation: radarSweep 4s linear infinite;
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Diagnostic Viewport Corner Brackets */
+.hud-corner-bracket {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: rgba(117, 217, 225, 0.75);
+}
+
+.hud-corner-tl {
+  top: 14px;
+  left: 14px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.hud-corner-tr {
+  top: 14px;
+  right: 14px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+
+.hud-corner-bl {
+  bottom: 14px;
+  left: 14px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+
+.hud-corner-br {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Clinical Telemetry Bar */
+.hud-telemetry-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  background: rgba(6, 54, 79, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(117, 217, 225, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hero-float-badge-1 {
+  animation: floatSlow 5s ease-in-out infinite;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hero-float-badge-1:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(7, 59, 89, 0.4);
+}
+
+.hero-float-badge-2 {
+  animation: floatSlow 6s ease-in-out infinite 1s;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hero-float-badge-2:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(7, 59, 89, 0.4);
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.hud-crosshair {
+  position: absolute;
+  pointer-events: none;
+  background-color: rgba(117, 217, 225, 0.6);
+}
+
+@keyframes hudRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes hudPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Button Shimmer & Specular Sheen Animations
+   -------------------------------------------------------------------------- */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0) 70%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: transform 0.75s ease;
+}
+
+.btn-shimmer:hover::after {
+  transform: rotate(25deg) translate(350%, 0);
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px -5px rgba(7, 59, 89, 0.07);
+}
+
+.glass-panel-dark {
+  background: rgba(6, 54, 79, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(117, 217, 225, 0.25);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.35);
+}
+
+/* Pulse Ripple for WhatsApp / Chat Pill */
+.whatsapp-pulse {
+  position: relative;
+}
+
+.whatsapp-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background-color: #10B981;
+  opacity: 0.6;
+  z-index: -1;
+  animation: pulseRipple 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes pulseRipple {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Interactive Cards & Hover Micro-Interactions
+   -------------------------------------------------------------------------- */
+/* Medical Background Grid & Textures */
+.bg-medical-grid {
+  background-image: radial-gradient(rgba(7, 59, 89, 0.08) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+
+.bg-medical-grid-dark {
+  background-image: radial-gradient(rgba(117, 217, 225, 0.12) 1.2px, transparent 1.2px);
+  background-size: 32px 32px;
+}
+
+/* Ambient Floating Glow Orbs */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(65px);
+  pointer-events: none;
+  z-index: 0;
+  animation: orbDrift 16s ease-in-out infinite alternate;
+}
+
+.ambient-orb-teal {
+  background: radial-gradient(circle, rgba(19, 184, 176, 0.22) 0%, transparent 70%);
+}
+
+.ambient-orb-cyan {
+  background: radial-gradient(circle, rgba(117, 217, 225, 0.25) 0%, transparent 70%);
+}
+
+.ambient-orb-blue {
+  background: radial-gradient(circle, rgba(8, 118, 168, 0.18) 0%, transparent 70%);
+}
+
+@keyframes orbDrift {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(35px, -28px) scale(1.14); }
+  100% { transform: translate(-25px, 22px) scale(0.96); }
+}
+
+/* Floating Medical Plus / Optic Particles */
+.floating-plus {
+  position: absolute;
+  pointer-events: none;
+  color: rgba(19, 184, 176, 0.38);
+  font-family: monospace;
+  font-size: 20px;
+  user-select: none;
+  animation: floatPlusDrift 7s ease-in-out infinite alternate;
+}
+
+@keyframes floatPlusDrift {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0.25; }
+  50% { transform: translateY(-18px) rotate(45deg); opacity: 0.7; }
+  100% { transform: translateY(-34px) rotate(90deg); opacity: 0.25; }
+}
+
+/* Wavefront Background Concentric Ring Graphics */
+.wavefront-ring-bg {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(19, 184, 176, 0.15);
+  pointer-events: none;
+  animation: ringPulseRotate 36s linear infinite;
+}
+
+@keyframes ringPulseRotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.04); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Laser Scanner Bar Effect */
+.laser-scan-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(117, 217, 225, 0.95), transparent);
+  box-shadow: 0 0 12px rgba(117, 217, 225, 0.85);
+  pointer-events: none;
+  animation: laserScanDown 5s ease-in-out infinite;
+}
+
+@keyframes laserScanDown {
+  0% { top: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.service-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: #bee2ef;
+}
+
+.service-card:hover .service-arrow {
+  transform: translateX(4px);
+  color: var(--color-teal);
+}
+
+.service-arrow {
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* Doctor Cards */
+.doctor-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: #cde4ee;
+}
+
+.doctor-card:hover img {
+  transform: scale(1.03);
+}
+
+.doctor-card img {
+  transition: transform var(--transition-slow);
+}
+
+/* Tech Feature Box */
+.tech-feature-card {
+  transition: all var(--transition-fast);
+}
+
+.tech-feature-card:hover {
+  background-color: #F8FBFE;
+  border-color: var(--color-teal);
+  transform: translateY(-2px);
+}
+
+/* Video Play Button Pulse Animation */
+.play-btn-pulse {
+  position: relative;
+}
+
+.play-btn-pulse::before,
+.play-btn-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background-color: rgba(19, 184, 176, 0.45);
+  z-index: 0;
+  animation: playPulse 2.4s ease-out infinite;
+}
+
+.play-btn-pulse::after {
+  animation-delay: 1.2s;
+}
+
+@keyframes playPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Testimonial Carousel
+   -------------------------------------------------------------------------- */
+.testimonial-track {
+  display: flex;
+  transition: transform var(--transition-slow);
+  touch-action: pan-y pinch-zoom;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #c7dbe4;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.carousel-dot.active {
+  width: 24px;
+  background-color: var(--color-teal);
+}
+
+/* --------------------------------------------------------------------------
+   7. Modals (Video Modal & Appointment Alert)
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.modal-backdrop.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-dialog {
+  transform: scale(0.95) translateY(10px);
+  transition: transform var(--transition-normal);
+}
+
+.modal-backdrop.is-active .modal-dialog {
+  transform: scale(1) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   8. Form Control Custom Styling
+   -------------------------------------------------------------------------- */
+.form-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid #D1E3ED;
+  background-color: #FFFFFF;
+  color: var(--color-main-text);
+  font-size: 0.875rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-secondary-blue);
+  box-shadow: 0 0 0 3px rgba(8, 118, 168, 0.15);
+}
+
+.form-input.is-invalid {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-navy);
+  margin-bottom: 0.3rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. Scroll Reveal Animations (IntersectionObserver)
+   -------------------------------------------------------------------------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay modifiers */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+/* --------------------------------------------------------------------------
+   10. FAQ Accordion Custom Transitions
+   -------------------------------------------------------------------------- */
+.faq-item {
+  transition: all var(--transition-normal);
+}
+
+.faq-item:hover {
+  border-color: #c0dfe9;
+}
+
+.faq-icon {
+  transition: transform var(--transition-normal), background-color var(--transition-fast);
+}
+
+/* --------------------------------------------------------------------------
+   11. Back To Top Button
+   -------------------------------------------------------------------------- */
+#back-to-top {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity var(--transition-normal), visibility var(--transition-normal), transform var(--transition-normal);
+}
+
+#back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   11. Media Preferences: Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. Healthcare Accessibility & Eye-Comfort Modes
+   -------------------------------------------------------------------------- */
+html.eye-comfort-mode {
+  filter: sepia(0.24) hue-rotate(330deg) saturate(0.92) brightness(0.97);
+  transition: filter 0.35s ease;
+}
+
+html.high-contrast-mode {
+  filter: contrast(1.15);
+}
+
+html.high-contrast-mode body {
+  background-color: #ffffff !important;
+  color: #0b1a24 !important;
+}
+
+html.high-contrast-mode .service-card,
+html.high-contrast-mode .doctor-card,
+html.high-contrast-mode .tech-feature-card,
+html.high-contrast-mode .faq-item,
+html.high-contrast-mode .symptom-card {
+  border: 2px solid #073B59 !important;
+}
+
+/* Font Sizing Tokens */
+html.font-size-sm { font-size: 15px; }
+html.font-size-md { font-size: 16px; }
+html.font-size-lg { font-size: 17.5px; }
+html.font-size-xl { font-size: 19px; }
+
+/* --------------------------------------------------------------------------
+   13. Interactive Vision Symptom Triage Widget
+   -------------------------------------------------------------------------- */
+.symptom-card {
+  cursor: pointer;
+  border: 1.5px solid var(--color-border);
+  background-color: #FFFFFF;
+  transition: all var(--transition-fast);
+}
+
+.symptom-card:hover {
+  border-color: var(--color-teal);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.symptom-card.is-selected {
+  border-color: var(--color-teal);
+  background-color: rgba(19, 184, 176, 0.06);
+  box-shadow: 0 0 0 2px rgba(19, 184, 176, 0.25), var(--shadow-md);
+}
+
+.symptom-card.is-selected .symptom-radio-dot {
+  background-color: var(--color-teal);
+  transform: scale(1);
+}
+
+.symptom-radio-dot {
+  transform: scale(0);
+  transition: transform var(--transition-fast);
+}
+
+/* --------------------------------------------------------------------------
+   14. Appointment Form UI/UX Controls
+   -------------------------------------------------------------------------- */
+.date-quick-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: #F8FBFE;
+  color: var(--color-secondary-text);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.date-quick-btn:hover {
+  border-color: var(--color-teal);
+  color: var(--color-primary-navy);
+  background-color: #EEF7FC;
+}
+
+.date-quick-btn.is-active {
+  background-color: var(--color-teal);
+  border-color: var(--color-teal);
+  color: #FFFFFF;
+}
+
+.time-slot-chip {
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+  color: var(--color-main-text);
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.time-slot-chip:hover {
+  border-color: var(--color-teal);
+  background-color: #F4F9FD;
+}
+
+.time-slot-chip.is-selected {
+  background-color: var(--color-secondary-blue);
+  border-color: var(--color-secondary-blue);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(8, 118, 168, 0.25);
+}
+
+/* Form field focus flash highlight */
+@keyframes fieldFlashPulse {
+  0% { box-shadow: 0 0 0 0 rgba(19, 184, 176, 0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(19, 184, 176, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(19, 184, 176, 0); }
+}
+
+.flash-highlight {
+  animation: fieldFlashPulse 1.2s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   15. Interactive LASIK Candidacy Calculator
+   -------------------------------------------------------------------------- */
+.calc-option-btn {
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: #FFFFFF;
+  color: var(--color-main-text);
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.calc-option-btn:hover {
+  border-color: var(--color-secondary-blue);
+}
+
+.calc-option-btn.is-active {
+  background-color: var(--color-primaryNavy, #073B59);
+  border-color: var(--color-primaryNavy, #073B59);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   16. Toast Notifications
+   -------------------------------------------------------------------------- */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast-message {
+  pointer-events: auto;
+  min-width: 260px;
+  max-width: 380px;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: var(--color-dark-navy);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px rgba(7, 59, 89, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.toast-message.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-message.toast-success {
+  border-left: 4px solid var(--color-teal);
+}
+
+.toast-message.toast-info {
+  border-left: 4px solid var(--color-secondary-blue);
+}
+
+
